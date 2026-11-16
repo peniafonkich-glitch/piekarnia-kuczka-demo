@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Piekarnia-Cukiernia Kuczka | chleb, ciasta i torty w Łodzi od 1982 roku</title>
+<meta name="description" content="Makieta strony Piekarni-Cukierni Józefa Kuczki z Łodzi: chleb, bułki, ciasta, torty okolicznościowe i weselne, lista sklepów z godzinami.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;500;700&family=Vollkorn:wght@500;700;800&display=swap&subset=latin-ext" rel="stylesheet">
+<style>
+:root{
+  --paper:#f6f2ea;
+  --paper-2:#ebe4d6;
+  --ink:#271f19;
+  --ink-2:#5f564c;
+  --line:#d6cdbd;
+  --accent:#2f5d3a;
+  --accent-hover:#234a2d;
+  --warn:#8a3b12;
+  --r:6px;
+  --s1:8px;--s2:16px;--s3:24px;--s4:40px;--s5:64px;--s6:104px;
+  --gut:clamp(20px,5vw,56px);
+  --hd:'Vollkorn',Georgia,serif;
+  --bd:'Karla','Segoe UI',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--paper)}
+body{font-family:var(--bd);font-size:17px;line-height:1.55;color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+h1,h2,h3{font-family:var(--hd);font-weight:800;line-height:1.06}
+h2{font-size:clamp(32px,4.4vw,48px)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 var(--gut)}
+.small{font-size:14px;color:var(--ink-2)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 var(--s3);border-radius:var(--r);background:var(--accent);color:#fff;font:700 16px var(--bd);text-decoration:none;border:1px solid var(--accent);cursor:pointer;transition:background .15s}
+.btn:hover{background:var(--accent-hover)}
+.btn.alt{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn.alt:hover{background:var(--ink);color:var(--paper)}
+
+header{position:fixed;inset:0 0 auto 0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:var(--s2);padding:12px var(--gut);border-bottom:1px solid transparent;transition:background .15s,border-color .15s}
+header.solid{background:var(--paper);border-color:var(--line)}
+.brand{font-family:var(--hd);font-weight:800;font-size:21px;text-decoration:none;line-height:1.05}
+header nav{display:flex;gap:var(--s3);font-weight:500;font-size:15px}
+header nav a{text-decoration:none}
+header nav a:hover{text-decoration:underline}
+@media(max-width:600px){header nav .opt{display:none}.brand{font-size:18px}}
+
+.track{position:relative;height:240vh}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+#cv{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero{position:absolute;left:var(--gut);bottom:clamp(40px,11vh,104px);max-width:min(600px,90vw);z-index:2}
+.hero h1{font-size:clamp(38px,5.6vw,70px)}
+.hero p{margin-top:var(--s2);max-width:42ch;font-size:19px}
+.hero .row{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s3)}
+.hero .facts{margin-top:var(--s3);font-size:14px;color:var(--ink-2)}
+.load{position:absolute;right:24%;top:50%;transform:translate(50%,-50%);font-size:14px;color:var(--ink-2);transition:opacity .4s}
+@media(max-width:860px){.hero h1{font-size:34px}.hero p{font-size:17px}.hero{bottom:32px}.stage #cv{height:58%}.load{right:50%;top:28%}}
+
+.sec{padding:var(--s6) 0}
+.sec.alt{background:var(--paper-2)}
+.two{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--s5);align-items:start}
+@media(max-width:860px){.two{grid-template-columns:1fr;gap:var(--s4)}.sec{padding:var(--s5) 0}}
+
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--s3);margin-bottom:var(--s4)}
+.arrows{display:flex;gap:var(--s1)}
+.arrows button{width:48px;height:48px;border:1px solid var(--ink);border-radius:var(--r);background:transparent;font:400 26px var(--bd);color:var(--ink);cursor:pointer;line-height:1}
+.arrows button:hover{background:var(--ink);color:var(--paper)}
+.cards{display:flex;gap:var(--s3);overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:var(--s2);scrollbar-width:thin;scrollbar-color:var(--ink-2) transparent}
+.card{flex:0 0 min(264px,76vw);scroll-snap-align:start;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
+.card .ph{aspect-ratio:4/5;background:var(--paper-2);position:relative;border-bottom:1px solid var(--line)}
+.card .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.card .ph .slot{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:var(--s2);color:var(--ink-2);font-size:13px;background:var(--paper)}
+.card .ph .slot b{font:800 22px var(--hd);color:var(--ink)}
+.card .bd{padding:var(--s2);display:flex;flex-direction:column;gap:var(--s1);flex:1}
+.card h3{font-size:23px}
+.card p{font-size:15px;color:var(--ink-2);flex:1}
+.card .add{margin-top:var(--s1);min-height:44px;border:1px solid var(--accent);border-radius:var(--r);background:transparent;color:var(--accent);font:700 15px var(--bd);cursor:pointer}
+.card .add:hover,.card .add.on{background:var(--accent);color:#fff}
+
+.pick{list-style:none;border-top:2px solid var(--ink);margin-top:var(--s3)}
+.pick li{display:flex;align-items:center;justify-content:space-between;gap:var(--s2);padding:12px 0;border-bottom:1px solid var(--line)}
+.pick b{font-weight:700;font-size:18px}
+.qty{display:flex;align-items:center}
+.qty button{width:44px;height:44px;border:1px solid var(--ink);background:transparent;font:500 22px var(--bd);color:var(--ink);cursor:pointer;line-height:1}
+.qty button:first-child{border-radius:var(--r) 0 0 var(--r)}
+.qty button:last-child{border-radius:0 var(--r) var(--r) 0}
+.qty button:hover{background:var(--ink);color:var(--paper)}
+.qty output{min-width:44px;height:44px;display:grid;place-items:center;border-block:1px solid var(--ink);font-weight:700}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:var(--s2);margin-top:var(--s3)}
+.fields .full{grid-column:1/-1}
+label{display:block;font-weight:700;font-size:14px;margin-bottom:6px}
+input,select{width:100%;min-height:48px;padding:0 12px;font:16px var(--bd);color:var(--ink);background:#fff;border:1px solid var(--ink-2);border-radius:var(--r)}
+input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
+@media(max-width:480px){.fields{grid-template-columns:1fr}}
+.preview{border:2px solid var(--ink);border-radius:var(--r);background:#fff;padding:var(--s3);position:sticky;top:72px}
+.preview h3{font-size:24px;margin-bottom:var(--s2)}
+.preview pre{white-space:pre-wrap;font:16px/1.6 var(--bd);min-height:200px}
+.preview pre.hint{color:var(--ink-2)}
+.acts{display:grid;gap:var(--s1);margin-top:var(--s3)}
+.msg{min-height:22px;font-size:14px;margin-top:var(--s1);color:var(--ink-2)}
+@media(max-width:860px){.preview{position:static}}
+
+/* sklepy */
+.shops{list-style:none;border-top:2px solid var(--ink)}
+.shops li{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto;gap:var(--s2);align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line)}
+.shops b{font:700 19px var(--hd)}
+.shops .h{font-size:15px;color:var(--ink-2)}
+.shops a{font-weight:700}
+.st{font-size:13px;font-weight:700;padding:2px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.st.open{color:var(--accent)}.st.closed{color:var(--warn)}
+@media(max-width:640px){.shops li{grid-template-columns:1fr;gap:2px}}
+
+dl{display:grid;grid-template-columns:auto 1fr;gap:var(--s1) var(--s3);margin-top:var(--s3)}
+dt{color:var(--ink-2);font-size:14px;padding-top:4px}
+dd{font-size:18px}
+.map{border:2px solid var(--ink);border-radius:var(--r);overflow:hidden;min-height:340px;background:var(--paper-2)}
+.map iframe{width:100%;height:100%;min-height:340px;border:0;display:block}
+footer{padding:var(--s4) 0 var(--s5);border-top:1px solid var(--line)}
+footer p{max-width:78ch}
+@media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header id="hd">
+  <a class="brand" href="#start">Piekarnia-Cukiernia<br>Kuczka</a>
+  <nav aria-label="Menu"><a class="opt" href="#oferta">Oferta</a><a href="#zamow">Zamów</a><a href="#sklepy">Sklepy</a><a class="opt" href="#kontakt">Kontakt</a></nav>
+</header>
+
+<main>
+<section class="track" id="start">
+  <div class="stage">
+    <canvas id="cv" role="img" aria-label="Trójwymiarowy bochenek chleba. Model wygenerowany komputerowo, nie zdjęcie wypieku."></canvas>
+    <div class="load" id="load">Ładuję model 3D</div>
+    <div class="hero">
+      <h1>Świeży chleb, ciasta i torty. Łódź, od 1982 roku</h1>
+      <p>Tradycyjne receptury w nowoczesnym wydaniu. Torty okolicznościowe, w tym weselne.</p>
+      <div class="row"><a class="btn" href="#sklepy">Znajdź sklep</a><a class="btn alt" href="#zamow">Zamów tort lub ciasto</a></div>
+      <p class="facts">Józef Kuczka i Wspólnicy. Główna siedziba: ul. Olimpijska 28, Łódź.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec alt" id="oferta">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <h2>Oferta</h2>
+        <p class="small" style="margin-top:var(--s2);max-width:46ch">Chleby i bułki z piekarni, torty i ciasta z cukierni. Dodaj pozycje do zapytania przyciskiem na karcie.</p>
+      </div>
+      <div class="arrows"><button type="button" id="prev" aria-label="Poprzednie pozycje">‹</button><button type="button" id="next" aria-label="Następne pozycje">›</button></div>
+    </div>
+    <div class="cards" id="cards" tabindex="0" aria-label="Karty oferty"></div>
+  </div>
+</section>
+
+<section class="sec" id="zamow">
+  <div class="wrap two">
+    <div>
+      <h2>Zapytanie o zamówienie</h2>
+      <p class="small" style="margin-top:var(--s2);max-width:46ch">Szczególnie dla tortów i większych zamówień. Wybierz pozycje, termin i sklep odbioru. Po prawej powstaje wiadomość do firmy.</p>
+      <ul class="pick" id="pick"></ul>
+      <div class="fields">
+        <div><label for="dt">Na kiedy</label><input type="date" id="dt"></div>
+        <div><label for="pp">Ile osób</label><input id="pp" inputmode="numeric" placeholder="np. 20" autocomplete="off"></div>
+        <div class="full"><label for="sh">Odbiór w sklepie</label><select id="sh"></select></div>
+        <div class="full"><label for="nt">Uwagi</label><input id="nt" placeholder="np. tort na wesele, napis na tablicy" autocomplete="off"></div>
+        <div class="full"><label for="nm">Twoje imię</label><input id="nm" autocomplete="given-name"></div>
+      </div>
+    </div>
+    <aside class="preview" aria-live="polite">
+      <h3>Twoja wiadomość</h3>
+      <pre id="pre" class="hint">Wybierz co najmniej jedną pozycję, a tu pojawi się gotowa wiadomość.</pre>
+      <div class="acts">
+        <a class="btn" id="mail" href="#">Wyślij e-mailem do biura</a>
+        <a class="btn alt" href="tel:+48426875924">Zadzwoń: 42 687 59 24</a>
+        <button type="button" class="btn alt" id="copy">Kopiuj wiadomość</button>
+      </div>
+      <div class="msg" id="msg" role="status"></div>
+    </aside>
+  </div>
+</section>
+
+<section class="sec alt" id="sklepy">
+  <div class="wrap two">
+    <div>
+      <h2>Sklepy firmowe</h2>
+      <p class="small" style="margin-top:var(--s2);max-width:34ch">Adresy, godziny i telefony ze strony firmy. Znacznik „otwarte” liczy się z godzin podanych poniżej, według czasu w Polsce.</p>
+    </div>
+    <ul class="shops" id="shops"></ul>
+  </div>
+</section>
+
+<section class="sec" id="kontakt">
+  <div class="wrap two">
+    <div>
+      <h2>Kontakt</h2>
+      <dl>
+        <dt>Siedziba</dt><dd>ul. Olimpijska 28<br>94-043 Łódź</dd>
+        <dt>Godziny</dt><dd>pon.–pt. 6:00–19:00<br>sob. 6:00–15:00<br>niedziela nieczynne</dd>
+        <dt>Telefon</dt><dd><a href="tel:+48426875924">42 687 59 24</a></dd>
+        <dt>E-mail</dt><dd><a href="mailto:biuro@piekarniacukierniakuczka.pl">biuro@piekarniacukierniakuczka.pl</a></dd>
+        <dt>Facebook</dt><dd><a href="https://www.facebook.com/Piekarnia.Cukiernia.Kuczka" rel="noopener">Piekarnia-Cukiernia Kuczka</a></dd>
+      </dl>
+    </div>
+    <div class="map"><iframe title="Mapa: ul. Olimpijska 28, Łódź" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=19.3938%2C51.7333%2C19.4338%2C51.7533&amp;layer=mapnik&amp;marker=51.7433510%2C19.4138021"></iframe></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="small">To makieta nowej strony. Nie ma na niej zdjęć wypieków: bochenek na ekranie to model 3D wygenerowany komputerowo. W pełnej wersji pojawią się prawdziwe zdjęcia i oferta z cenami, za zgodą właścicieli. Teksty, adresy, godziny i telefony pochodzą z obecnej strony firmy.</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var hd=$('hd'),track=document.querySelector('.track');
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;var id=a.getAttribute('href').slice(1);var t=id&&$(id);if(t){e.preventDefault();window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY-(id==='start'?0:56),behavior:'smooth'})}});
+addEventListener('scroll',function(){hd.classList.toggle('solid',scrollY>40)},{passive:true});
+
+/* bochenek 3D */
+var cv=$('cv'),load=$('load'),ok=false,model=null,pivot,R,S,cam;
+try{var t=document.createElement('canvas');ok=!!(window.WebGLRenderingContext&&(t.getContext('webgl')||t.getContext('experimental-webgl')))&&window.THREE&&THREE.GLTFLoader}catch(e){}
+if(ok){
+ R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});R.setPixelRatio(Math.min(devicePixelRatio||1,2));R.outputEncoding=THREE.sRGBEncoding;
+ S=new THREE.Scene();cam=new THREE.PerspectiveCamera(30,1,.1,100);cam.position.set(0,0,8);
+ S.add(new THREE.AmbientLight(0xffffff,.65));
+ var k=new THREE.DirectionalLight(0xfff0d8,1.4);k.position.set(-3,5,5);S.add(k);
+ var r=new THREE.DirectionalLight(0xffc98a,.9);r.position.set(4,2,-4);S.add(r);
+ pivot=new THREE.Group();S.add(pivot);
+ new THREE.GLTFLoader().load('bread.glb',function(g){
+  model=g.scene;var b=new THREE.Box3().setFromObject(model),sz=b.getSize(new THREE.Vector3()),c=b.getCenter(new THREE.Vector3());
+  var s=2.8/Math.max(sz.x,sz.y,sz.z);model.scale.setScalar(s);model.position.set(-c.x*s,-c.y*s,-c.z*s);
+  pivot.add(model);load.style.opacity=0;setTimeout(function(){load.style.display='none'},500);draw()
+ },undefined,function(){load.textContent='Nie udało się wczytać modelu 3D.'});
+}else{load.style.display='none'}
+function fit(){if(!ok)return;var w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;R.setSize(w,h,false);cam.aspect=w/h;cam.position.z=w/h<.9?9.5:8.2;cam.updateProjectionMatrix();draw()}
+if(ok){if(window.ResizeObserver)new ResizeObserver(fit).observe(cv);else addEventListener('resize',fit)}
+var still=matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches,vis=true;
+if('IntersectionObserver' in window)new IntersectionObserver(function(es){vis=es[0].isIntersecting}).observe(document.querySelector('.stage'));
+function draw(){
+ if(!model)return;
+ var rr=track.getBoundingClientRect(),tot=track.offsetHeight-innerHeight,p=Math.min(1,Math.max(0,-rr.top/tot));
+ var w=cv.clientWidth/cv.clientHeight,mob=w<.9;
+ pivot.rotation.y=(still?0:p*Math.PI*2)-.5;
+ pivot.rotation.x=.38;
+ pivot.position.x=mob?0:(w<1.4?1.2:2.2);
+ pivot.position.y=mob?.9:.2;
+ R.render(S,cam)}
+(function loop(){requestAnimationFrame(loop);if(vis)draw()})();
+
+/* sklepy (dane ze strony firmy) */
+var SHOPS=[
+ ['Siedziba, ul. Olimpijska 28','pon.–pt. 6:00–19:00, sob. 6:00–15:00','42 687 59 24',[[6,19],[6,15]]],
+ ['ul. Hubala 3 bl. 175','pon.–pt. 7:00–16:00, sob. 7:00–12:00','513 326 662',[[7,16],[7,12]]],
+ ['ul. Marynarska 67','pon.–pt. 6:00–17:00, sob. 6:00–13:00','531 971 397',[[6,17],[6,13]]],
+ ['ul. Przybyszewskiego 47','pon.–pt. 6:00–16:00, sob. 6:00–12:00','510 046 980',[[6,16],[6,12]]],
+ ['ul. Rentowna 19','pon.–pt. 6:00–16:00, sob. 6:00–12:00','512 580 771',[[6,16],[6,12]]],
+ ['ul. Aleksandrowska 38','pon.–pt. 7:00–18:00, sob. 7:00–13:00','42 207 68 40',[[7,18],[7,13]]],
+ ['ul. Dąbrowskiego 63','pon.–pt. 6:00–18:00, sob. 6:00–13:00','515 326 860',[[6,18],[6,13]]],
+ ['ul. Armii Krajowej 32','pon.–pt. 7:00–16:00, sob. 7:00–13:00','501 533 820',[[7,16],[7,13]]],
+ ['ul. Syrenki 29 (Plac Słoneczny)','pon.–pt. 7:00–16:00, sob. 7:00–13:00','780 160 118',[[7,16],[7,13]]]
+];
+function nowPL(){try{var f=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Warsaw',weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date()),o={};f.forEach(function(p){o[p.type]=p.value});return {d:o.weekday,m:(+o.hour%24)*60+(+o.minute)}}catch(e){var n=new Date();return {d:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][n.getDay()],m:n.getHours()*60+n.getMinutes()}}}
+function isOpen(h){var n=nowPL(),r=null;if(['Mon','Tue','Wed','Thu','Fri'].indexOf(n.d)>-1)r=h[0];else if(n.d==='Sat')r=h[1];if(!r)return false;return n.m>=r[0]*60&&n.m<r[1]*60}
+var shopsEl=$('shops'),shSel=$('sh');
+SHOPS.forEach(function(s,i){var li=document.createElement('li'),o=isOpen(s[3]);
+ li.innerHTML='<div><b>'+s[0]+'</b><div class="h">niedziela nieczynne</div></div><div class="h">'+s[1]+'</div><div><span class="st '+(o?'open':'closed')+'">'+(o?'otwarte':'zamknięte')+'</span><br><a href="tel:+48'+s[2].replace(/\s/g,'')+'">'+s[2]+'</a></div>';
+ shopsEl.appendChild(li);
+ var op=document.createElement('option');op.value=s[0];op.textContent=s[0];shSel.appendChild(op)});
+
+/* oferta i zapytanie */
+var items=[['Chleby','z piekarni'],['Bułki','z piekarni'],['Tort okolicznościowy','także weselny'],['Ciasta','z cukierni'],['Inne produkty','z cukierni']];
+var q=items.map(function(){return 0}),ul=$('pick');
+items.forEach(function(it,i){var li=document.createElement('li');li.innerHTML='<div><b>'+it[0]+'</b><div class="small">'+it[1]+'</div></div><div class="qty"><button type="button" aria-label="Mniej: '+it[0]+'">−</button><output>0</output><button type="button" aria-label="Więcej: '+it[0]+'">+</button></div>';
+ var bs=li.querySelectorAll('button'),o=li.querySelector('output');
+ bs[0].onclick=function(){q[i]=Math.max(0,q[i]-1);o.textContent=q[i];calc()};
+ bs[1].onclick=function(){q[i]=Math.min(9,q[i]+1);o.textContent=q[i];calc()};ul.appendChild(li)});
+var slugs=['chleby','bulki','torty','ciasta','inne'],cardDesc=['Świeże i aromatyczne pieczywo każdego dnia.','Bułki z piekarni, pieczone codziennie.','Piękne i smaczne torty okolicznościowe, w tym weselne.','Ciasta z cukierni według tradycyjnych receptur.','Pozostałe wyroby cukiernicze.'],cardNames=['Nasze chleby','Nasze bułki','Nasze torty','Nasze ciasta','Inne produkty'],cardsEl=$('cards'),addBtns=[];
+items.forEach(function(it,i){var c=document.createElement('article');c.className='card';
+ c.innerHTML='<div class="ph"><div class="slot"><b>'+cardNames[i]+'</b><span>Tu pojawi się zdjęcie z Waszej piekarni</span></div><img alt="'+cardNames[i]+', Piekarnia-Cukiernia Kuczka" src="photos/'+slugs[i]+'.jpg" loading="lazy"></div><div class="bd"><h3>'+cardNames[i]+'</h3><p>'+cardDesc[i]+'</p><button type="button" class="add">Dodaj do zapytania</button></div>';
+ c.querySelector('img').onerror=function(){this.remove()};
+ var b=c.querySelector('.add');addBtns.push(b);
+ b.onclick=function(){q[i]=Math.min(9,q[i]+1);ul.children[i].querySelector('output').textContent=q[i];calc()};
+ cardsEl.appendChild(c)});
+$('prev').onclick=function(){cardsEl.scrollBy({left:-284,behavior:'smooth'})};
+$('next').onclick=function(){cardsEl.scrollBy({left:284,behavior:'smooth'})};
+function syncCards(){addBtns.forEach(function(b,i){b.classList.toggle('on',q[i]>0);b.textContent=q[i]>0?'W zapytaniu: '+q[i]+' (dodaj jeszcze)':'Dodaj do zapytania'})}
+var dt=$('dt');dt.min=new Date().toISOString().slice(0,10);
+function fd(s){var p=s.split('-');return p[2]+'.'+p[1]+'.'+p[0]}
+function txt(){var L=['Dzień dobry,','','proszę o wycenę i potwierdzenie zamówienia:'],n=0;
+ items.forEach(function(it,i){if(q[i]){L.push('• '+it[0]+' × '+q[i]);n+=q[i]}});
+ L.push('','Na kiedy: '+(dt.value?fd(dt.value):'do ustalenia'));var pp=$('pp').value.trim();if(pp)L.push('Liczba osób: '+pp);
+ L.push('Odbiór w sklepie: '+shSel.value);var nt=$('nt').value.trim();if(nt)L.push('Uwagi: '+nt);var nm=$('nm').value.trim();L.push('','Pozdrawiam'+(nm?', '+nm:''));return {n:n,s:L.join('\n')}}
+function calc(){var r=txt(),pre=$('pre');syncCards();
+ pre.textContent=r.n?r.s:'Wybierz co najmniej jedną pozycję, a tu pojawi się gotowa wiadomość.';pre.classList.toggle('hint',!r.n);
+ $('mail').href='mailto:biuro@piekarniacukierniakuczka.pl?subject='+encodeURIComponent('Zapytanie o zamówienie')+'&body='+encodeURIComponent(r.s)}
+['dt','pp','nm','nt'].forEach(function(i){$(i).addEventListener('input',calc)});shSel.addEventListener('change',calc);
+$('copy').addEventListener('click',function(){var m=$('msg'),r=txt();if(!r.n){m.textContent='Najpierw wybierz pozycję.';return}
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(r.s).then(function(){m.textContent='Skopiowano. Wklej w wiadomość do firmy.'},function(){m.textContent='Nie udało się skopiować. Zaznacz tekst ręcznie.'})}else{m.textContent='Nie udało się skopiować. Zaznacz tekst ręcznie.'}});
+$('mail').addEventListener('click',function(e){if(!txt().n){e.preventDefault();$('msg').textContent='Najpierw wybierz pozycję.'}});
+calc();
+})();
+</script>
+</body>
+</html>
