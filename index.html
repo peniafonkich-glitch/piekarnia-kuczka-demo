@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Piekarnia-Cukiernia Kuczka | sklepy w Łodzi, chleb, ciasta, torty</title>
-<meta name="description" content="Makieta strony Piekarni-Cukierni Józefa Kuczki z Łodzi: lista sklepów z godzinami i telefonami, chleb, ciasta, torty okolicznościowe i weselne.">
+<meta name="description" content="Makieta strony Piekarni-Cukierni Józefa Kuczki z Łodzi: chleb, ciasta, torty okolicznościowe i weselne, lista sklepów z godzinami i telefonami.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;700;900&display=swap&subset=latin-ext" rel="stylesheet">
 <style>
-/* Kierunek: sklep osiedlowy. Brązowa skórka chleba na górze, mąka niżej, jeden akcent: kłos. Jedna rodzina fontu, skrajne grubości. */
+/* Kierunek: strona produktu w stylu Apple. Jeden bochenek 3D na pełnym ekranie, sterowany przewijaniem (GSAP ScrollTrigger),
+   potem zdanie rozjaśniane słowo po słowie, potem praktyczna lista sklepów. Techniki: pinned scrub timeline, word-by-word lighting, scale/rotate 3D. */
 :root{
   --crust:#5a381f;
   --crust-2:#6c4529;
@@ -20,70 +21,76 @@
   --ink-2:#6a5a4d;
   --wheat:#f0bd5a;
   --wheat-hover:#f6cc7a;
-  --line-d:rgba(243,236,224,.2);
+  --line-d:rgba(243,236,224,.22);
   --line-l:#cfc3b0;
   --r:4px;
   --s1:8px;--s2:16px;--s3:24px;--s4:40px;--s5:64px;--s6:104px;
   --gut:clamp(20px,5vw,56px);
   --f:'Archivo','Helvetica Neue',Arial,sans-serif;
-  --ease:cubic-bezier(.16,1,.3,1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;background:var(--crust)}
+html{background:var(--crust)}
 body{font-family:var(--f);font-weight:300;font-size:18px;line-height:1.55;color:var(--ink);background:var(--flour);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit;text-underline-offset:3px}
 :focus-visible{outline:2px solid var(--wheat);outline-offset:3px;border-radius:2px}
-h1,h2,h3{font-weight:900;letter-spacing:-.03em;line-height:1}
+h1,h2,h3{font-weight:900;letter-spacing:-.035em;line-height:1}
 .wrap{max-width:1200px;margin:0 auto;padding:0 var(--gut)}
 .small{font-size:14px;font-weight:400}
-
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 var(--s3);border-radius:var(--r);background:var(--wheat);color:var(--crust);font:700 16px var(--f);text-decoration:none;border:1px solid var(--wheat);cursor:pointer;transition:background .15s}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 var(--s3);border-radius:var(--r);background:var(--wheat);color:var(--ink);font:700 16px var(--f);text-decoration:none;border:1px solid var(--wheat);cursor:pointer;transition:background .15s}
 .btn:hover{background:var(--wheat-hover)}
 .btn.line{background:transparent;color:inherit;border-color:currentColor}
 .btn.line:hover{background:var(--ink);color:var(--flour);border-color:var(--ink)}
-.dark .btn.line:hover{background:var(--flour);color:var(--crust);border-color:var(--flour)}
 
-/* belka */
-.bar{position:absolute;inset:0 0 auto 0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:var(--s2);padding:16px var(--gut);color:var(--flour)}
+/* --- intro: przypięty ekran z bochenkiem --- */
+.intro{position:relative;height:100vh;height:100svh;background:var(--crust);color:var(--flour);overflow:hidden}
+#cv{position:absolute;inset:0;width:100%;height:100%;display:block}
+.bar{position:absolute;inset:0 0 auto 0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:16px var(--gut)}
 .bar b{font-weight:900;font-size:20px;letter-spacing:-.02em}
 .bar a{font-weight:700;font-size:15px;text-decoration:none}
 .bar a:hover{text-decoration:underline}
+.lines{position:absolute;left:var(--gut);right:var(--gut);top:clamp(84px,15vh,150px);z-index:3;min-height:38vh;pointer-events:none}
+.ln{position:absolute;left:0;right:0;top:0;font-size:clamp(46px,10vw,150px);font-weight:900;letter-spacing:-.04em;line-height:.95}
+.ln small{display:block;margin-top:var(--s2);font-size:clamp(17px,2vw,24px);font-weight:300;letter-spacing:0;line-height:1.4;max-width:30ch}
+.hint{position:absolute;left:0;right:0;bottom:22px;text-align:center;font-size:13px;font-weight:400;color:#e3d6c3;z-index:3}
+.load{position:absolute;left:50%;top:62%;transform:translate(-50%,-50%);font-size:14px;color:#e3d6c3;transition:opacity .4s;z-index:3}
+.intro.static{height:auto;min-height:100svh;padding-bottom:var(--s5)}
+.intro.static .lines{position:relative;top:auto;margin-top:110px;min-height:0;display:grid;gap:var(--s4)}
+.intro.static .ln{position:static}
+.intro.static #cv{position:relative;height:50vh;margin-top:var(--s4)}
+@media(max-width:700px){.ln{font-size:clamp(42px,14vw,72px)}.lines{top:88px}}
 
-/* hero: wyszukiwarka sklepów */
+/* --- zdanie rozjaśniane słowo po słowie --- */
+.statement{background:var(--flour);padding:var(--s6) 0}
+.statement p.big{font-size:clamp(30px,5vw,68px);font-weight:700;letter-spacing:-.03em;line-height:1.12;max-width:20ch}
+.statement p.big .w{display:inline-block;opacity:.16;margin-right:.22em}
+.statement .src{margin-top:var(--s4);font-size:14px;font-weight:400;color:var(--ink-2)}
+@media(max-width:700px){.statement{padding:var(--s5) 0}}
+
+/* --- wyszukiwarka sklepów --- */
 .dark{background:var(--crust);color:var(--flour)}
-.hero{min-height:100vh;min-height:100svh;display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:var(--s4);align-items:center;padding:96px var(--gut) var(--s4);max-width:1320px;margin:0 auto}
-.hero h1{font-size:clamp(44px,7.4vw,104px)}
-.hero .lead{margin-top:var(--s2);max-width:34ch;font-size:20px}
-.find{margin-top:var(--s3);display:flex;flex-wrap:wrap;gap:var(--s2);align-items:center}
-.find input[type=text]{flex:1 1 220px;min-height:48px;padding:0 14px;font:400 16px var(--f);color:var(--flour);background:var(--crust-2);border:1px solid var(--line-d);border-radius:var(--r)}
-.find input[type=text]::placeholder{color:#e3d6c3}
+.finder{padding:var(--s6) 0}
+.finder .grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--s5);align-items:start}
+.finder h2{font-size:clamp(38px,5.6vw,80px)}
+.finder .lead{margin-top:var(--s2);max-width:30ch;font-size:20px}
+.find{margin-top:var(--s3);display:grid;gap:var(--s1)}
+.find input[type=text]{min-height:52px;padding:0 14px;font:400 17px var(--f);color:var(--flour);background:var(--crust-2);border:1px solid var(--line-d);border-radius:var(--r)}
+.find input[type=text]::placeholder{color:#d9cab6}
 .find input[type=text]:focus{outline:2px solid var(--wheat);outline-offset:1px}
 .chk{display:flex;align-items:center;gap:10px;font-weight:400;font-size:15px;cursor:pointer;min-height:44px}
 .chk input{width:22px;height:22px;accent-color:var(--wheat)}
-.shops{list-style:none;margin-top:var(--s2);border-top:1px solid var(--line-d);max-height:min(46vh,420px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--ink-2) transparent}
-.shops li{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1.3fr) auto;gap:var(--s2);align-items:center;padding:12px 0;border-bottom:1px solid var(--line-d);transition:background .12s}
+.shops{list-style:none;border-top:1px solid var(--line-d)}
+.shops li{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1.3fr) auto;gap:var(--s2);align-items:center;padding:16px 0;border-bottom:1px solid var(--line-d);transition:background .12s}
 .shops li:hover{background:var(--crust-2)}
-.shops b{font-weight:700;font-size:17px}
+.shops b{font-weight:700;font-size:19px}
 .shops .h{font-size:14px;font-weight:300;color:#eadfce}
 .shops a{font-weight:700;font-size:15px;white-space:nowrap}
 .st{display:block;font-size:12px;font-weight:700;margin-bottom:2px}
 .st.open{color:var(--wheat)}.st.closed{color:#ffc9a8}
-.none{padding:var(--s3) 0;color:#eadfce}
+.none{padding:var(--s3) 0;color:#eadfce;display:block}
+@media(max-width:900px){.finder .grid{grid-template-columns:1fr;gap:var(--s4)}.finder{padding:var(--s5) 0}}
 @media(max-width:640px){.shops li{grid-template-columns:1fr auto}.shops .h{grid-column:1/2}}
 
-.bread{position:relative;aspect-ratio:1/1;max-height:76vh;width:100%;cursor:grab;touch-action:pan-y}
-.bread:active{cursor:grabbing}
-#cv{width:100%;height:100%;display:block}
-.bread .hint{position:absolute;left:0;right:0;bottom:0;text-align:center;font-size:13px;font-weight:400;color:#e3d6c3}
-.load{position:absolute;inset:0;display:grid;place-items:center;font-size:14px;color:#e3d6c3;transition:opacity .4s}
-@media(max-width:900px){.hero{grid-template-columns:1fr;padding-top:88px}.bread{order:-1;max-height:300px;aspect-ratio:auto;height:300px}}
-
-/* orkiestracja wejścia (jedna, raz) */
-.in{opacity:0;transform:translateY(20px);animation:up .8s var(--ease) forwards}
-.in.d1{animation-delay:.05s}.in.d2{animation-delay:.18s}.in.d3{animation-delay:.3s}.in.d4{animation-delay:.42s}
-@keyframes up{to{opacity:1;transform:none}}
-
-/* sekcje jasne */
+/* --- oferta --- */
 .sec{padding:var(--s6) 0}
 .sec h2{font-size:clamp(34px,5vw,64px)}
 .split{display:grid;grid-template-columns:1fr 1fr;gap:var(--s5);margin-top:var(--s4)}
@@ -97,29 +104,28 @@ h1,h2,h3{font-weight:900;letter-spacing:-.03em;line-height:1}
 .ph .slot b{display:block;font-size:22px;font-weight:900;color:var(--ink);margin-bottom:4px}
 @media(max-width:820px){.split{grid-template-columns:1fr;gap:var(--s5)}.sec{padding:var(--s5) 0}}
 
-/* zapytanie */
+/* --- zapytanie --- */
 .ask{background:var(--flour-2)}
 .chips{display:flex;flex-wrap:wrap;gap:var(--s1);margin-top:var(--s3)}
 .chip input{position:absolute;opacity:0;width:1px;height:1px}
-.chip label{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:0 var(--s3);border:1px solid var(--ink);border-radius:var(--r);font-weight:700;font-size:16px;cursor:pointer;background:transparent;transition:background .12s}
+.chip label{display:inline-flex;align-items:center;min-height:48px;padding:0 var(--s3);border:1px solid var(--ink);border-radius:var(--r);font-weight:700;font-size:16px;cursor:pointer;transition:background .12s}
 .chip label:hover{background:#fff}
 .chip input:checked+label{background:var(--ink);color:var(--flour)}
 .chip input:focus-visible+label{outline:2px solid var(--wheat);outline-offset:2px}
 .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s2);margin-top:var(--s3)}
-.grid3 .w2{grid-column:span 2}.grid3 .w3{grid-column:1/-1}
+.grid3 .w2{grid-column:span 2}
 label.l{display:block;font-weight:700;font-size:14px;margin-bottom:6px}
 .grid3 input,.grid3 select{width:100%;min-height:48px;padding:0 12px;font:400 16px var(--f);color:var(--ink);background:#fff;border:1px solid var(--ink-2);border-radius:var(--r)}
 .grid3 input:focus,.grid3 select:focus{outline:2px solid var(--wheat);outline-offset:1px}
-@media(max-width:700px){.grid3{grid-template-columns:1fr}.grid3 .w2,.grid3 .w3{grid-column:auto}}
+@media(max-width:700px){.grid3{grid-template-columns:1fr}.grid3 .w2{grid-column:auto}}
 .msgbox{margin-top:var(--s4);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--s3);align-items:start;border:2px solid var(--ink);border-radius:var(--r);background:#fff;padding:var(--s3)}
 .msgbox pre{white-space:pre-wrap;font:300 17px/1.6 var(--f);min-height:120px}
-.msgbox pre.hint{color:var(--ink-2)}
+.msgbox pre.hint2{color:var(--ink-2)}
 .msgbox .acts{display:grid;gap:var(--s1);min-width:230px}
-.msgbox .acts .btn.line:hover{background:var(--ink);color:var(--flour)}
 .note{min-height:22px;font-size:14px;font-weight:400;margin-top:var(--s1);color:var(--ink-2)}
 @media(max-width:820px){.msgbox{grid-template-columns:1fr}.msgbox .acts{min-width:0}}
 
-/* firma i kontakt */
+/* --- firma i kontakt --- */
 .firm{padding:var(--s6) 0;background:var(--crust);color:var(--flour)}
 .firm h2{font-size:clamp(34px,5vw,64px);max-width:16ch}
 .firm .facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s4);margin-top:var(--s4)}
@@ -134,32 +140,45 @@ label.l{display:block;font-weight:700;font-size:14px;margin-bottom:6px}
 @media(max-width:820px){.firm .facts{grid-template-columns:1fr;gap:var(--s3)}.firm .cg{grid-template-columns:1fr;gap:var(--s4)}.firm{padding:var(--s5) 0}}
 footer{background:var(--crust);color:#e3d6c3;padding:0 0 var(--s5)}
 footer p{max-width:78ch;border-top:1px solid var(--line-d);padding-top:var(--s3)}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}.in{opacity:1;transform:none}html{scroll-behavior:auto}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
 
-<div class="dark">
+<section class="intro" id="start">
+  <canvas id="cv" role="img" aria-label="Trójwymiarowy bochenek chleba, który obraca się i przybliża podczas przewijania. Model wygenerowany komputerowo, nie zdjęcie wypieku."></canvas>
   <div class="bar"><b>Kuczka</b><a href="tel:+48426875924">42 687 59 24</a></div>
-  <section class="hero" id="start">
+  <div class="lines">
+    <h1 class="ln l1">Chleb.<small>Świeży i aromatyczny, każdego dnia.</small></h1>
+    <p class="ln l2">Torty i ciasta.<small>Okolicznościowe, w tym weselne.</small></p>
+    <p class="ln l3">Od 1982 roku.<small>Łódź, dziewięć sklepów firmowych.</small></p>
+  </div>
+  <div class="load" id="load">Ładuję model 3D</div>
+  <div class="hint" id="hint">Przewijaj</div>
+</section>
+
+<main>
+<section class="statement" id="o-firmie">
+  <div class="wrap">
+    <p class="big" id="big">Świeże i aromatyczne pieczywo każdego dnia. Niezapomniany smak tortów i ciast. Tradycyjne receptury w nowoczesnym i oryginalnym wydaniu.</p>
+    <p class="src">Tak firma opisuje się na swojej obecnej stronie.</p>
+  </div>
+</section>
+
+<section class="finder dark" id="sklepy">
+  <div class="wrap grid">
     <div>
-      <h1 class="in d1">Znajdź swój sklep Kuczka</h1>
-      <p class="lead in d2">Dziewięć sklepów firmowych i siedziba w Łodzi. Chleb, ciasta i torty od 1982 roku.</p>
-      <div class="find in d3">
+      <h2>Znajdź swój sklep</h2>
+      <p class="lead">Dziewięć sklepów firmowych i siedziba w Łodzi.</p>
+      <div class="find">
         <input type="text" id="q" placeholder="Wpisz ulicę, np. Rentowna" aria-label="Szukaj sklepu po ulicy" autocomplete="off">
         <label class="chk"><input type="checkbox" id="onlyOpen"> Tylko otwarte teraz</label>
       </div>
-      <ul class="shops in d4" id="shops" aria-live="polite"></ul>
     </div>
-    <div class="bread in d2">
-      <canvas id="cv" role="img" aria-label="Trójwymiarowy bochenek chleba, który można obracać myszą lub palcem. Model wygenerowany komputerowo, nie zdjęcie wypieku."></canvas>
-      <div class="load" id="load">Ładuję model 3D</div>
-      <div class="hint">Przeciągnij, żeby obrócić</div>
-    </div>
-  </section>
-</div>
+    <ul class="shops" id="shops" aria-live="polite"></ul>
+  </div>
+</section>
 
-<main>
 <section class="sec" id="oferta">
   <div class="wrap">
     <h2>Z piekarni i z cukierni</h2>
@@ -191,7 +210,7 @@ footer p{max-width:78ch;border-top:1px solid var(--line-d);padding-top:var(--s3)
       <div><label class="l" for="nt">Uwagi</label><input type="text" id="nt" placeholder="np. tort weselny" autocomplete="off"></div>
     </div>
     <div class="msgbox" aria-live="polite">
-      <pre id="pre" class="hint">Zaznacz co najmniej jedną pozycję, a tu pojawi się gotowa wiadomość.</pre>
+      <pre id="pre" class="hint2">Zaznacz co najmniej jedną pozycję, a tu pojawi się gotowa wiadomość.</pre>
       <div class="acts">
         <a class="btn" id="mail" href="#">Wyślij e-mailem do biura</a>
         <a class="btn line" href="tel:+48426875924">Zadzwoń: 42 687 59 24</a>
@@ -231,39 +250,64 @@ footer p{max-width:78ch;border-top:1px solid var(--line-d);padding-top:var(--s3)
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script>
 (function(){
 var $=function(i){return document.getElementById(i)};
+var still=matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+var hasGsap=!!(window.gsap&&window.ScrollTrigger);
+if(hasGsap)gsap.registerPlugin(ScrollTrigger);
 
-/* chleb 3D: powolny obrót + przeciąganie */
+/* ---------- bochenek 3D ---------- */
 var cv=$('cv'),load=$('load'),ok=false,model=null,pivot,R,S,cam;
+var st={ry:-.5,rx:.32,s:.8,y:-.7};
 try{var t=document.createElement('canvas');ok=!!(window.WebGLRenderingContext&&(t.getContext('webgl')||t.getContext('experimental-webgl')))&&window.THREE&&THREE.GLTFLoader}catch(e){}
-var still=matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches,drag=false,lx=0,ry=-.5,rx=.35,vy=0;
 if(ok){
  R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});R.setPixelRatio(Math.min(devicePixelRatio||1,2));R.outputEncoding=THREE.sRGBEncoding;
  S=new THREE.Scene();cam=new THREE.PerspectiveCamera(30,1,.1,100);cam.position.set(0,0,8);
- S.add(new THREE.AmbientLight(0xffffff,.6));
+ S.add(new THREE.AmbientLight(0xffffff,.65));
  var k=new THREE.DirectionalLight(0xfff0d8,1.5);k.position.set(-3,5,5);S.add(k);
  var r=new THREE.DirectionalLight(0xffc98a,1);r.position.set(4,2,-4);S.add(r);
  pivot=new THREE.Group();S.add(pivot);
  new THREE.GLTFLoader().load('bread.glb',function(g){
   model=g.scene;var b=new THREE.Box3().setFromObject(model),sz=b.getSize(new THREE.Vector3()),c=b.getCenter(new THREE.Vector3());
   var s=3.1/Math.max(sz.x,sz.y,sz.z);model.scale.setScalar(s);model.position.set(-c.x*s,-c.y*s,-c.z*s);
-  pivot.add(model);load.style.opacity=0;setTimeout(function(){load.style.display='none'},500)
+  pivot.add(model);load.style.opacity=0;setTimeout(function(){load.style.display='none'},500);draw();if(hasGsap)ScrollTrigger.refresh()
  },undefined,function(){load.textContent='Nie udało się wczytać modelu 3D.'});
- var box=cv.parentNode;
- box.addEventListener('pointerdown',function(e){drag=true;lx=e.clientX;try{box.setPointerCapture(e.pointerId)}catch(x){}});
- box.addEventListener('pointermove',function(e){if(!drag)return;vy=(e.clientX-lx)*.01;ry+=vy;lx=e.clientX});
- box.addEventListener('pointerup',function(){drag=false});box.addEventListener('pointercancel',function(){drag=false});
 }else{load.style.display='none'}
-function fit(){if(!ok)return;var w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;R.setSize(w,h,false);cam.aspect=w/h;cam.position.z=w/h>1.4?9:8;cam.updateProjectionMatrix()}
+function fit(){if(!ok)return;var w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;R.setSize(w,h,false);cam.aspect=w/h;cam.position.z=w/h<.8?10:8;cam.updateProjectionMatrix();draw()}
 if(ok){if(window.ResizeObserver)new ResizeObserver(fit).observe(cv);else addEventListener('resize',fit);fit()}
-var vis=true;if('IntersectionObserver' in window)new IntersectionObserver(function(es){vis=es[0].isIntersecting}).observe(document.querySelector('.bread'));
-(function loop(){requestAnimationFrame(loop);if(!ok||!vis||!model)return;
- if(!drag&&!still){ry+=.004;vy*=.95;ry+=vy}
- pivot.rotation.y=ry;pivot.rotation.x=rx;R.render(S,cam)})();
+function draw(){if(!ok||!model)return;
+ var w=cv.clientWidth/cv.clientHeight,mob=w<.8;
+ pivot.rotation.y=st.ry;pivot.rotation.x=st.rx;pivot.scale.setScalar(mob?st.s*.8:st.s);pivot.position.y=mob?st.y+.4:st.y;pivot.position.x=0;
+ R.render(S,cam)}
+var vis=true;if('IntersectionObserver' in window)new IntersectionObserver(function(es){vis=es[0].isIntersecting}).observe($('start'));
+if(hasGsap)gsap.ticker.add(function(){if(vis)draw()});else (function l(){requestAnimationFrame(l);if(vis)draw()})();
 
-/* sklepy: dane ze strony firmy */
+/* ---------- animacja sterowana przewijaniem (GSAP ScrollTrigger) ---------- */
+if(hasGsap&&!still){
+ gsap.set('.l2,.l3',{opacity:0,y:48});
+ gsap.from('.lines',{opacity:0,y:30,duration:.9,ease:'power3.out',delay:.1,clearProps:'all'});
+ /* jeden pinned timeline: bochenek obraca się i przybliża, trzy zdania zmieniają się */
+ var tl=gsap.timeline({scrollTrigger:{trigger:'.intro',start:'top top',end:'+=480%',scrub:.7,pin:true,anticipatePin:1}});
+ tl.to(st,{ry:Math.PI*2.2-.5,s:1.75,y:-1.35,rx:.5,duration:7,ease:'none'},0)
+   .to('#hint',{opacity:0,duration:.4},.2)
+   .fromTo('.l1',{opacity:1,y:0},{opacity:0,y:-48,duration:.7},1.6)
+   .fromTo('.l2',{opacity:0,y:48},{opacity:1,y:0,duration:.7},2.1)
+   .fromTo('.l2',{opacity:1,y:0},{opacity:0,y:-48,duration:.7,immediateRender:false},4)
+   .fromTo('.l3',{opacity:0,y:48},{opacity:1,y:0,duration:.7},4.5);
+ /* zdanie rozjaśniane słowo po słowie */
+ var big=$('big'),words=big.textContent.trim().split(/\s+/);big.setAttribute('aria-label',big.textContent.trim());big.innerHTML=words.map(function(w){return '<span class="w" aria-hidden="true">'+w+'</span>'}).join(' ');
+ gsap.to('#big .w',{opacity:1,stagger:.12,ease:'none',scrollTrigger:{trigger:'#big',start:'top 80%',end:'bottom 45%',scrub:true}});
+}else{
+ /* bez ruchu: układ statyczny */
+ $('start').classList.add('static');st.s=1.2;st.y=-.2;st.ry=-.5;
+ $('hint').style.display='none';
+ var s2=document.querySelector('.statement .w');
+}
+
+/* ---------- sklepy (dane ze strony firmy) ---------- */
 var SHOPS=[
  ['Siedziba, ul. Olimpijska 28','pon.–pt. 6:00–19:00, sob. 6:00–15:00','42 687 59 24',[[6,19],[6,15]]],
  ['ul. Hubala 3 bl. 175','pon.–pt. 7:00–16:00, sob. 7:00–12:00','513 326 662',[[7,16],[7,12]]],
@@ -284,12 +328,13 @@ function renderShops(){var q=norm(qEl.value.trim()),only=oEl.checked,n=0;shopsEl
   var li=document.createElement('li');
   li.innerHTML='<div><b>'+s[0]+'</b></div><div class="h">'+s[1]+'<br>niedziela nieczynne</div><div><span class="st '+(o?'open':'closed')+'">'+(o?'otwarte teraz':'zamknięte teraz')+'</span><a href="tel:+48'+s[2].replace(/\s/g,'')+'">'+s[2]+'</a></div>';
   shopsEl.appendChild(li)});
- if(!n){var li=document.createElement('li');li.className='none';li.style.display='block';li.textContent=only?'Teraz żaden sklep nie jest otwarty. Odznacz „Tylko otwarte teraz”, żeby zobaczyć wszystkie.':'Nie znaleziono takiej ulicy. Sprawdź pisownię albo wyczyść pole.';shopsEl.appendChild(li)}}
+ if(!n){var li=document.createElement('li');li.className='none';li.textContent=only?'Teraz żaden sklep nie jest otwarty. Odznacz „Tylko otwarte teraz”, żeby zobaczyć wszystkie.':'Nie znaleziono takiej ulicy. Sprawdź pisownię albo wyczyść pole.';shopsEl.appendChild(li)}
+ if(hasGsap)ScrollTrigger.refresh()}
 qEl.addEventListener('input',renderShops);oEl.addEventListener('change',renderShops);
 SHOPS.forEach(function(s){var op=document.createElement('option');op.value=s[0];op.textContent=s[0];shSel.appendChild(op)});
 renderShops();
 
-/* zapytanie */
+/* ---------- zapytanie ---------- */
 var items=['Tort okolicznościowy','Tort weselny','Ciasta','Chleby i bułki','Inne produkty'],sel=items.map(function(){return false}),chips=$('chips');
 items.forEach(function(it,i){var d=document.createElement('div');d.className='chip';d.innerHTML='<input type="checkbox" id="c'+i+'"><label for="c'+i+'">'+it+'</label>';d.querySelector('input').addEventListener('change',function(e){sel[i]=e.target.checked;calc()});chips.appendChild(d)});
 var dt=$('dt');dt.min=new Date().toISOString().slice(0,10);
@@ -299,7 +344,7 @@ function txt(){var L=['Dzień dobry,','','proszę o wycenę i potwierdzenie zam�
  L.push('','Na kiedy: '+(dt.value?fd(dt.value):'do ustalenia'));var pp=$('pp').value.trim();if(pp)L.push('Liczba osób: '+pp);
  L.push('Odbiór w sklepie: '+shSel.value);var nt=$('nt').value.trim();if(nt)L.push('Uwagi: '+nt);var nm=$('nm').value.trim();L.push('','Pozdrawiam'+(nm?', '+nm:''));return {n:n,s:L.join('\n')}}
 function calc(){var r=txt(),pre=$('pre');
- pre.textContent=r.n?r.s:'Zaznacz co najmniej jedną pozycję, a tu pojawi się gotowa wiadomość.';pre.classList.toggle('hint',!r.n);
+ pre.textContent=r.n?r.s:'Zaznacz co najmniej jedną pozycję, a tu pojawi się gotowa wiadomość.';pre.classList.toggle('hint2',!r.n);
  $('mail').href='mailto:biuro@piekarniacukierniakuczka.pl?subject='+encodeURIComponent('Zapytanie o zamówienie')+'&body='+encodeURIComponent(r.s)}
 ['dt','pp','nm','nt'].forEach(function(i){$(i).addEventListener('input',calc)});shSel.addEventListener('change',calc);
 $('copy').addEventListener('click',function(){var m=$('msg'),r=txt();if(!r.n){m.textContent='Najpierw zaznacz pozycję.';return}
