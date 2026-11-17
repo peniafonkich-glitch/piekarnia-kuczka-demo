@@ -141,20 +141,27 @@ label.l{display:block;font-weight:700;font-size:14px;margin-bottom:6px}
 footer{background:var(--crust);color:#e3d6c3;padding:0 0 var(--s5)}
 footer p{max-width:78ch;border-top:1px solid var(--line-d);padding-top:var(--s3)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
+.lines{min-height:46vh}
+.ln{opacity:0;animation:show 12s infinite both}
+.l2{animation-delay:4s}.l3{animation-delay:8s}
+@keyframes show{0%{opacity:0;transform:translateY(36px)}5%,30%{opacity:1;transform:none}36%,100%{opacity:0;transform:translateY(-36px)}}
+.cta{position:absolute;left:var(--gut);bottom:clamp(30px,7vh,60px);z-index:5;display:flex;gap:12px;flex-wrap:wrap}
+.cta .btn.line{color:var(--flour)}.cta .btn.line:hover{background:var(--flour);color:var(--crust);border-color:var(--flour)}
+@media(prefers-reduced-motion:reduce){.ln{animation:none;opacity:0}.ln.l1{opacity:1}}
 </style>
 </head>
 <body>
 
 <section class="intro" id="start">
-  <canvas id="cv" role="img" aria-label="Trójwymiarowy bochenek chleba, który obraca się i przybliża podczas przewijania. Model wygenerowany komputerowo, nie zdjęcie wypieku."></canvas>
+  <canvas id="cv" role="img" aria-label="Trójwymiarowy bochenek chleba, który obraca się. Model wygenerowany komputerowo, nie zdjęcie wypieku."></canvas>
   <div class="bar"><b>Kuczka</b><a href="tel:+48426875924">42 687 59 24</a></div>
   <div class="lines">
     <h1 class="ln l1">Chleb.<small>Świeży i aromatyczny, każdego dnia.</small></h1>
     <p class="ln l2">Torty i ciasta.<small>Okolicznościowe, w tym weselne.</small></p>
     <p class="ln l3">Od 1982 roku.<small>Łódź, dziewięć sklepów firmowych.</small></p>
   </div>
-  <div class="load" id="load">Ładuję model 3D</div>
-  <div class="hint" id="hint">Przewijaj</div>
+  <div class="cta"><a class="btn" href="#sklepy">Znajdź sklep</a><a class="btn line" href="#zapytanie">Zapytaj o tort</a></div>
+  
 </section>
 
 <main>
@@ -249,63 +256,59 @@ footer p{max-width:78ch;border-top:1px solid var(--line-d);padding-top:var(--s3)
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script>
 (function(){
 var $=function(i){return document.getElementById(i)};
 var still=matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-var hasGsap=!!(window.gsap&&window.ScrollTrigger);
-if(hasGsap)gsap.registerPlugin(ScrollTrigger);
+var hasGsap=false;
 
-/* ---------- bochenek 3D ---------- */
-var cv=$('cv'),load=$('load'),ok=false,model=null,pivot,R,S,cam;
-var st={ry:-.5,rx:.32,s:.8,y:-.7};
-try{var t=document.createElement('canvas');ok=!!(window.WebGLRenderingContext&&(t.getContext('webgl')||t.getContext('experimental-webgl')))&&window.THREE&&THREE.GLTFLoader}catch(e){}
+/* ---------- bochenek 3D budowany w kodzie: ładuje się od razu, także na telefonie ---------- */
+var cv=$('cv'),ok=false,model=null,pivot,R,S,cam;
+var st={ry:-.5,rx:.34,s:1,y:-.35,sy:0};
+try{var t=document.createElement('canvas');ok=!!(window.WebGLRenderingContext&&(t.getContext('webgl')||t.getContext('experimental-webgl')))&&window.THREE}catch(e){}
 if(ok){
  R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});R.setPixelRatio(Math.min(devicePixelRatio||1,2));R.outputEncoding=THREE.sRGBEncoding;
  S=new THREE.Scene();cam=new THREE.PerspectiveCamera(30,1,.1,100);cam.position.set(0,0,8);
- S.add(new THREE.AmbientLight(0xffffff,.65));
- var k=new THREE.DirectionalLight(0xfff0d8,1.5);k.position.set(-3,5,5);S.add(k);
+ S.add(new THREE.AmbientLight(0xffffff,.55));
+ var k=new THREE.DirectionalLight(0xfff0d8,1.4);k.position.set(-3,5,5);S.add(k);
  var r=new THREE.DirectionalLight(0xffc98a,1);r.position.set(4,2,-4);S.add(r);
  pivot=new THREE.Group();S.add(pivot);
- new THREE.GLTFLoader().load('bread.glb',function(g){
-  model=g.scene;var b=new THREE.Box3().setFromObject(model),sz=b.getSize(new THREE.Vector3()),c=b.getCenter(new THREE.Vector3());
-  var s=3.1/Math.max(sz.x,sz.y,sz.z);model.scale.setScalar(s);model.position.set(-c.x*s,-c.y*s,-c.z*s);
-  pivot.add(model);load.style.opacity=0;setTimeout(function(){load.style.display='none'},500);draw();if(hasGsap)ScrollTrigger.refresh()
- },undefined,function(){load.textContent='Nie udało się wczytać modelu 3D.'});
-}else{load.style.display='none'}
+ (function(){
+  /* skórka: brąz z ciemniejszymi przypaleniami i mączką */
+  var c=document.createElement('canvas');c.width=512;c.height=256;var x=c.getContext('2d');
+  var g=x.createLinearGradient(0,0,0,256);g.addColorStop(0,'#9a5f28');g.addColorStop(.55,'#744216');g.addColorStop(1,'#52300f');x.fillStyle=g;x.fillRect(0,0,512,256);
+  var seed=7;function rnd(){seed=(seed*16807)%2147483647;return seed/2147483647}
+  for(var i=0;i<900;i++){x.fillStyle='rgba('+(rnd()<.5?'60,30,10':'230,190,120')+','+(.05+rnd()*.12)+')';x.beginPath();x.arc(rnd()*512,rnd()*256,.8+rnd()*2.4,0,6.3);x.fill()}
+  for(var i=0;i<260;i++){x.fillStyle='rgba(250,240,220,'+(.08+rnd()*.14)+')';x.fillRect(rnd()*512,rnd()*120,1+rnd()*2,1+rnd()*2)}
+  var tex=new THREE.CanvasTexture(c);tex.encoding=THREE.sRGBEncoding;
+  var crust=new THREE.MeshPhongMaterial({map:tex,shininess:14,specular:0x3a2a1a});
+  var cut=new THREE.MeshPhongMaterial({color:0xdcae6a,shininess:4,specular:0x221a10});
+  var m=new THREE.Group();
+  var loaf=new THREE.Mesh(new THREE.SphereGeometry(1,64,48),crust);loaf.scale.set(1.85,.72,.86);m.add(loaf);
+  for(var i=-1.5;i<=1.5;i+=1){ /* nacięcia na wierzchu */
+   var xx=i*.5,yy=.72*Math.sqrt(Math.max(0,1-Math.pow(xx/1.85,2)))*.9;
+   var sl=new THREE.Mesh(new THREE.SphereGeometry(1,24,12),cut);sl.scale.set(.42,.055,.085);sl.position.set(xx,yy+.012,0);sl.rotation.y=.62;sl.rotation.z=Math.atan2(-.72*xx/(1.85*1.85),Math.sqrt(Math.max(.08,1-Math.pow(xx/1.85,2))))*.85;m.add(sl)}
+  var b=new THREE.Box3().setFromObject(m),sz=b.getSize(new THREE.Vector3()),ct=b.getCenter(new THREE.Vector3());
+  var s=3.2/Math.max(sz.x,sz.y,sz.z);m.scale.setScalar(s);m.position.set(-ct.x*s,-ct.y*s,-ct.z*s);
+  model=m;pivot.add(m);
+ })();
+}
 function fit(){if(!ok)return;var w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;R.setSize(w,h,false);cam.aspect=w/h;cam.position.z=w/h<.8?10:8;cam.updateProjectionMatrix();draw()}
 if(ok){if(window.ResizeObserver)new ResizeObserver(fit).observe(cv);else addEventListener('resize',fit);fit()}
 function draw(){if(!ok||!model)return;
  var w=cv.clientWidth/cv.clientHeight,mob=w<.8;
- pivot.rotation.y=st.ry;pivot.rotation.x=st.rx;pivot.scale.setScalar(mob?st.s*.8:st.s);pivot.position.y=mob?st.y+.4:st.y;pivot.position.x=0;
+ pivot.rotation.y=st.ry;pivot.rotation.x=st.rx;pivot.scale.setScalar((mob?.8:1)*(1+st.sy*.2));pivot.position.y=(mob?st.y+.55:st.y)-st.sy*.5;pivot.position.x=w>1.1?1.4:0;
  R.render(S,cam)}
 var vis=true;if('IntersectionObserver' in window)new IntersectionObserver(function(es){vis=es[0].isIntersecting}).observe($('start'));
-if(hasGsap)gsap.ticker.add(function(){if(vis)draw()});else (function l(){requestAnimationFrame(l);if(vis)draw()})();
+var last=performance.now();
+(function l(now){requestAnimationFrame(l);var dt=Math.min(.05,(now-last)/1000);last=now;if(!still)st.ry+=dt*.45;if(vis)draw()})(last);
+addEventListener('scroll',function(){st.sy=Math.min(1,scrollY/innerHeight)},{passive:true});
 
-/* ---------- animacja sterowana przewijaniem (GSAP ScrollTrigger) ---------- */
-if(hasGsap&&!still){
- gsap.set('.l2,.l3',{opacity:0,y:48});
- gsap.from('.lines',{opacity:0,y:30,duration:.9,ease:'power3.out',delay:.1,clearProps:'all'});
- /* jeden pinned timeline: bochenek obraca się i przybliża, trzy zdania zmieniają się */
- var tl=gsap.timeline({scrollTrigger:{trigger:'.intro',start:'top top',end:'+=480%',scrub:.7,pin:true,anticipatePin:1}});
- tl.to(st,{ry:Math.PI*2.2-.5,s:1.75,y:-1.35,rx:.5,duration:7,ease:'none'},0)
-   .to('#hint',{opacity:0,duration:.4},.2)
-   .fromTo('.l1',{opacity:1,y:0},{opacity:0,y:-48,duration:.7},1.6)
-   .fromTo('.l2',{opacity:0,y:48},{opacity:1,y:0,duration:.7},2.1)
-   .fromTo('.l2',{opacity:1,y:0},{opacity:0,y:-48,duration:.7,immediateRender:false},4)
-   .fromTo('.l3',{opacity:0,y:48},{opacity:1,y:0,duration:.7},4.5);
- /* zdanie rozjaśniane słowo po słowie */
- var big=$('big'),words=big.textContent.trim().split(/\s+/);big.setAttribute('aria-label',big.textContent.trim());big.innerHTML=words.map(function(w){return '<span class="w" aria-hidden="true">'+w+'</span>'}).join(' ');
- gsap.to('#big .w',{opacity:1,stagger:.12,ease:'none',scrollTrigger:{trigger:'#big',start:'top 80%',end:'bottom 45%',scrub:true}});
-}else{
- /* bez ruchu: układ statyczny */
- $('start').classList.add('static');st.s=1.2;st.y=-.2;st.ry=-.5;
- $('hint').style.display='none';
- var s2=document.querySelector('.statement .w');
-}
+/* zdanie rozjaśniane słowo po słowie (przy zwykłym przewijaniu) */
+var big=$('big'),words=big.textContent.trim().split(/\s+/);big.setAttribute('aria-label',big.textContent.trim());big.innerHTML=words.map(function(w){return '<span class="w" aria-hidden="true">'+w+'</span>'}).join(' ');
+var bw=big.querySelectorAll('.w');
+function lit(){var rr=big.getBoundingClientRect(),h=innerHeight,p=(h*.85-rr.top)/(h*.55+rr.height);p=Math.max(0,Math.min(1,p));var n=Math.round(p*bw.length);bw.forEach(function(el,i){el.style.opacity=i<n?1:.16})}
+if(still){bw.forEach(function(el){el.style.opacity=1})}else{addEventListener('scroll',lit,{passive:true});addEventListener('resize',lit);lit()}
 
 /* ---------- sklepy (dane ze strony firmy) ---------- */
 var SHOPS=[
